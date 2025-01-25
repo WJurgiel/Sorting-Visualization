@@ -5,7 +5,7 @@
 
 #include "Entity.h"
 #include "CONFIG.h"
-void bubbleSort(sf::RenderWindow& window, std::vector<Entity>& entities, int n) {
+void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < n-i-1; j++) {
             if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
@@ -18,24 +18,11 @@ void bubbleSort(sf::RenderWindow& window, std::vector<Entity>& entities, int n) 
                 entities[j].updateColumn();
                 entities[j+1].updateColumn();
 
-                window.clear(sf::Color::Black);
-                for(const auto& entity : entities) {
-                    window.draw(entity);
-                }
-                window.display();
+                app.Draw();
 
-                sf::Event event;
-                while(window.pollEvent(event)) {
-                    if(event.type == sf::Event::Closed) {
-                        window.close();
-                    }
-                    if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-                        window.close();
-                    }
-                }
+                app.HandleEvents();
 
                 sf::sleep(sf::milliseconds(1));
-
             }
         }
     }
@@ -43,10 +30,11 @@ void bubbleSort(sf::RenderWindow& window, std::vector<Entity>& entities, int n) 
 int main()
 {
     srand(time(NULL));
-    App* app = App::getInstance();
-    sf::RenderWindow& window = app->getWindow();
 
     std::vector<Entity> entities;
+    App* app = App::getInstance(&entities);
+    sf::RenderWindow& window = app->getWindow();
+
     float posX = 0;
     int randomHeights[NUM_ENTITIES];
 
@@ -60,12 +48,12 @@ int main()
         posX += ENTITY_WIDTH + HORIZONTAL_OFFSET;
     }
 
-
-
-    bubbleSort(window,entities, NUM_ENTITIES);
+    bubbleSort(*app,entities, NUM_ENTITIES);
 
     while(window.isOpen()) {
         app->HandleEvents();
     }
+
+    delete app;
     return 0;
 }
