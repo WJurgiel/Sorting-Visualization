@@ -1,11 +1,11 @@
+#include <App.h>
 #include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
 #include "CONFIG.h"
-void bubbleSort(std::vector<Entity>& entities, int n) {
-    entities[0].changeColor();
+void bubbleSort(sf::RenderWindow& window, std::vector<Entity>& entities, int n) {
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < n-i-1; j++) {
             if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
@@ -17,6 +17,25 @@ void bubbleSort(std::vector<Entity>& entities, int n) {
 
                 entities[j].updateColumn();
                 entities[j+1].updateColumn();
+
+                window.clear(sf::Color::Black);
+                for(const auto& entity : entities) {
+                    window.draw(entity);
+                }
+                window.display();
+
+                sf::Event event;
+                while(window.pollEvent(event)) {
+                    if(event.type == sf::Event::Closed) {
+                        window.close();
+                    }
+                    if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                        window.close();
+                    }
+                }
+
+                sf::sleep(sf::milliseconds(1));
+
             }
         }
     }
@@ -24,7 +43,9 @@ void bubbleSort(std::vector<Entity>& entities, int n) {
 int main()
 {
     srand(time(NULL));
-    sf::RenderWindow window (sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Sorting");
+    App* app = App::getInstance();
+    sf::RenderWindow& window = app->getWindow();
+
     std::vector<Entity> entities;
     float posX = 0;
     int randomHeights[NUM_ENTITIES];
@@ -38,32 +59,13 @@ int main()
             );
         posX += ENTITY_WIDTH + HORIZONTAL_OFFSET;
     }
-    std::cout << "before sort: \n";
-    for(auto& entity : entities) {
-        std::cout << entity;
-    }
-    bubbleSort(entities, NUM_ENTITIES);
-    std::cout << "after sort: \n";
-    for(auto& entity : entities) {
-        std::cout << entity;
-    }
+
+
+
+    bubbleSort(window,entities, NUM_ENTITIES);
+
     while(window.isOpen()) {
-        sf::Event event;
-        while(window.pollEvent(event)) {
-            if(event.type == sf::Event::Closed) {
-                window.close();
-            }
-            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-                window.close();
-            }
-        }
-        window.clear(sf::Color::Black);
-
-        for(auto& entity : entities) {
-            window.draw(entity);
-        }
-
-        window.display();
+        app->HandleEvents();
     }
     return 0;
 }
