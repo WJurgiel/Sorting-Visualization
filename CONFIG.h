@@ -4,11 +4,11 @@
 
 #ifndef CONFIG_H
 #define CONFIG_H
-
-constexpr float ENTITY_WIDTH = 20;
-constexpr float HORIZONTAL_OFFSET = 10;
-constexpr float WINDOW_WIDTH = 800;
-constexpr float WINDOW_HEIGHT = 600;
-constexpr int NUM_ENTITIES = 10;
+constexpr float HORIZONTAL_OFFSET = 1;
+constexpr float VERTICAL_OFFSET = 50;
+constexpr float WINDOW_WIDTH = 1600;
+constexpr float WINDOW_HEIGHT = 900;
+constexpr int NUM_ENTITIES = 400;
+constexpr float ENTITY_WIDTH = WINDOW_WIDTH / NUM_ENTITIES - HORIZONTAL_OFFSET;
 
 #endif //CONFIG_H
