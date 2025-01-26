@@ -13,7 +13,7 @@ class TextLog : public sf::Drawable{
     sf::Font font;
     bool loadFont();
 public:
-    explicit TextLog(const std::string &startString);
+    explicit TextLog(const std::string &startString,sf::Vector2f pos = {0.f,0.f});
     void updateText(std::string newString);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };

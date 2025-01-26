@@ -10,7 +10,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 bool TextLog::loadFont() {
-    system("dir");
     if(!font.loadFromFile(FONT_NAME)) {
         std::cerr << "Failed to load font file " << FONT_NAME << std::endl;
         return false;
@@ -18,13 +17,14 @@ bool TextLog::loadFont() {
     return true;
 }
 
-TextLog::TextLog(const std::string &startString) {
+TextLog::TextLog(const std::string &startString, sf::Vector2f pos) {
     if(!loadFont()) return;
 
     text.setFont(font);
     text.setCharacterSize(TEXT_SIZE);
     text.setString(startString);
-    text.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Green);
+    text.setPosition(pos);
 }
 
 void TextLog::updateText(std::string newString) {

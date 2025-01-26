@@ -8,10 +8,12 @@
 #include "CONFIG.h"
 void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
     int comparisions = 0;
+    int arrayAccess = 0;
     TextLog& comparisionCounter = app.getComparisionsCounter();
-
+    TextLog& arrayAccessText = app.getArrayAccess();
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < n-i-1; j++) {
+            arrayAccessText.updateText("Array access: " + std::to_string(++arrayAccess));
             if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
                 comparisions++;
                 comparisionCounter.updateText("Comparisons: " + std::to_string(comparisions));
@@ -24,10 +26,11 @@ void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
                 entities[j].updateColumn();
                 entities[j+1].updateColumn();
 
-                app.Draw();
                 app.HandleEvents();
+                app.Draw();
 
-                sf::sleep(sf::milliseconds(1));
+
+                sf::sleep(sf::milliseconds(ALGORITHM_DELAY_MS));
             }
         }
     }
@@ -58,6 +61,7 @@ int main()
 
     while(window.isOpen()) {
         app->HandleEvents();
+        app->Draw();
 
     }
 
