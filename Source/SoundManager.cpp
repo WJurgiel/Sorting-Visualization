@@ -54,7 +54,6 @@ void SoundManager::playSound(const std::string &name, const float value, const f
             lastPlayTime = now;
             notifyListeners(name);
         }
-
     }else {
         std::cerr << "Sound: " << name << " not found" << std::endl;
     }

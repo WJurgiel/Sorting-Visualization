@@ -15,8 +15,8 @@ constexpr float HORIZONTAL_OFFSET = 1;
 constexpr float VERTICAL_OFFSET = 40;
 constexpr float WINDOW_WIDTH = 1600;
 constexpr float WINDOW_HEIGHT = 900;
-constexpr int NUM_ENTITIES = 300;
+constexpr int NUM_ENTITIES = 10;
 constexpr float ENTITY_WIDTH = WINDOW_WIDTH / NUM_ENTITIES - HORIZONTAL_OFFSET;
 
-constexpr float ALGORITHM_DELAY_MS = 50;
+constexpr float ALGORITHM_DELAY_MS = 1;
 #endif //CONFIG_H
