@@ -1,37 +1,27 @@
 #include <App.h>
 #include <iostream>
 #include <memory>
+#include <SortVisualizer.h>
 #include <TextLog.h>
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
 #include "CONFIG.h"
-void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
+void bubbleSort(SortVisualizer visualizer, std::vector<Entity>& entities, int n) {
     int comparisions = 0;
     int arrayAccess = 0;
-    TextLog& comparisionCounter = app.getComparisionsCounter();
-    TextLog& arrayAccessText = app.getArrayAccess();
+
     for (int i = 0; i < n-1; i++) {
+
         for (int j = 0; j < n-i-1; j++) {
-            arrayAccessText.updateText("Array access: " + std::to_string(++arrayAccess));
+            visualizer.updateCounters(comparisions, ++arrayAccess);
+
+            SortVisualizer::changeEntitiesColor(entities[j], entities[j+1], sf::Color::Red);
             if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
-                comparisions++;
-                comparisionCounter.updateText("Comparisons: " + std::to_string(comparisions));
-                std::swap(entities[j], entities[j+1]);
-
-                float tempX = entities[j].getPosX();
-                entities[j].setPosX(entities[j+1].getPosX());
-                entities[j+1].setPosX(tempX);
-
-                entities[j].updateColumn();
-                entities[j+1].updateColumn();
-
-                app.HandleEvents();
-                app.Draw();
-
-
-                sf::sleep(sf::milliseconds(ALGORITHM_DELAY_MS));
+                visualizer.updateCounters(++comparisions, arrayAccess);
+                visualizer.swapEntities(entities, j);
             }
+            SortVisualizer::changeEntitiesColor(entities[j], entities[j+1], sf::Color::Cyan);
         }
     }
 }
@@ -42,7 +32,7 @@ int main()
     std::vector<Entity> entities;
     App* app = App::getInstance(&entities);
     sf::RenderWindow& window = app->getWindow();
-
+    SortVisualizer sortVisualizer(*app);
 
     float posX = 0;
     int randomHeights[NUM_ENTITIES];
@@ -57,7 +47,7 @@ int main()
         posX += ENTITY_WIDTH + HORIZONTAL_OFFSET;
     }
 
-    bubbleSort(*app,entities, NUM_ENTITIES);
+    bubbleSort(sortVisualizer,entities, NUM_ENTITIES);
 
     while(window.isOpen()) {
         app->HandleEvents();
@@ -66,5 +56,6 @@ int main()
     }
 
     delete app;
+    SoundManager::destroyInstance();
     return 0;
 }

@@ -47,8 +47,8 @@ public:
         column.setPosition(posX, posY);
         column.setSize({chunkWidth, entityHeight});
     }
-    void changeColor() {
-        column.setFillColor(sf::Color::Red);
+    void changeColor(sf::Color color) {
+        column.setFillColor(color);
     }
     int getID() const {
         return id;
