@@ -68,6 +68,28 @@ void App::HandleEvents() {
             SoundManager::destroyInstance();
             exit(0);
         }
+        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
+            if(ALGORITHM_DELAY_MS > 10)
+                ALGORITHM_DELAY_MS -= 5;
+            else if (ALGORITHM_DELAY_MS > 1 && ALGORITHM_DELAY_MS <= 10)
+                ALGORITHM_DELAY_MS -= 1;
+            else ALGORITHM_DELAY_MS -= 0.1;
+
+            if(ALGORITHM_DELAY_MS < 0.1)
+                ALGORITHM_DELAY_MS = 0.1;
+            currentDelayText->updateText("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms");
+        }
+        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
+            if(ALGORITHM_DELAY_MS < 1)
+                ALGORITHM_DELAY_MS += 0.1;
+            else if (ALGORITHM_DELAY_MS >= 0.1 && ALGORITHM_DELAY_MS < 10)
+                ALGORITHM_DELAY_MS += 1;
+            else if (ALGORITHM_DELAY_MS >= 10 && ALGORITHM_DELAY_MS < 100)
+                ALGORITHM_DELAY_MS += 5;
+            if(ALGORITHM_DELAY_MS >  100)
+                ALGORITHM_DELAY_MS = 100;
+            currentDelayText->updateText("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms");
+        }
     }
 }
 void App::Draw() {
