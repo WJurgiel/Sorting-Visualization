@@ -5,13 +5,15 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-constexpr float SIM_STEP = 0.01f;
+constexpr const char* FONT_NAME = "../Fonts/arial.ttf";
+constexpr int TEXT_SIZE = 24;
+
 
 constexpr float HORIZONTAL_OFFSET = 1;
 constexpr float VERTICAL_OFFSET = 40;
 constexpr float WINDOW_WIDTH = 1600;
 constexpr float WINDOW_HEIGHT = 900;
-constexpr int NUM_ENTITIES = 100;
+constexpr int NUM_ENTITIES = 400;
 constexpr float ENTITY_WIDTH = WINDOW_WIDTH / NUM_ENTITIES - HORIZONTAL_OFFSET;
 
 #endif //CONFIG_H

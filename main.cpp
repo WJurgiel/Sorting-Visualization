@@ -1,14 +1,20 @@
 #include <App.h>
 #include <iostream>
 #include <memory>
+#include <TextLog.h>
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
 #include "CONFIG.h"
 void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
+    int comparisions = 0;
+    TextLog& comparisionCounter = app.getComparisionsCounter();
+
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < n-i-1; j++) {
             if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
+                comparisions++;
+                comparisionCounter.updateText("Comparisons: " + std::to_string(comparisions));
                 std::swap(entities[j], entities[j+1]);
 
                 float tempX = entities[j].getPosX();
@@ -19,7 +25,6 @@ void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
                 entities[j+1].updateColumn();
 
                 app.Draw();
-
                 app.HandleEvents();
 
                 sf::sleep(sf::milliseconds(1));
@@ -29,11 +34,12 @@ void bubbleSort(App& app, std::vector<Entity>& entities, int n) {
 }
 int main()
 {
-    srand(time(NULL));
+    srand(time(nullptr));
 
     std::vector<Entity> entities;
     App* app = App::getInstance(&entities);
     sf::RenderWindow& window = app->getWindow();
+
 
     float posX = 0;
     int randomHeights[NUM_ENTITIES];
@@ -52,6 +58,7 @@ int main()
 
     while(window.isOpen()) {
         app->HandleEvents();
+
     }
 
     delete app;
