@@ -14,16 +14,16 @@
  * Each entity which is basically a column has:
     * its constant width = chunkWidth
     * height which is = entityHeight
-
  */
-class Entity : public sf::Drawable{
+class Entity final : public sf::Drawable{
 private:
-    int id;
+    int id{};
     const float chunkWidth = ENTITY_WIDTH;
-    float entityHeight;
-    float posX, posY;
+    float entityHeight{};
+    float posX{}, posY{};
     sf::RectangleShape column;
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 public:
     Entity() = default;
     Entity(int id, float height, float posX);
