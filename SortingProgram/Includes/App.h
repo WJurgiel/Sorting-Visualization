@@ -5,9 +5,9 @@
 #ifndef APP_H
 #define APP_H
 
-
 #include <Entity.h>
 #include <TextLog.h>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include "IEvents.h"
 #include "IUpdateBuffer.h"

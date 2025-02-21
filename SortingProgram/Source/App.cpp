@@ -7,12 +7,12 @@
 #include <SoundManager.h>
 
 App::App() {
-    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Sorting");
+    window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     drawableEntities = nullptr;
     std::cout << "[INFO]: In order to work on entities please assign them first with < App.setEntityVector(std::vector<Entity>*) >";
 }
 App::App(std::vector<Entity>* entities) {
-    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Sorting");
+    window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     this->drawableEntities = entities;
 
     this->algorithmNameText = new TextLog("alg_name - " + std::to_string(NUM_ENTITIES));
@@ -53,42 +53,43 @@ void App::setEntityVector(std::vector<Entity>* newEntities) {
     this->drawableEntities = newEntities;
 }
 void App::HandleEvents() {
-    sf::Event event{};
-    while(window->pollEvent(event)) {
-        if(event.type == sf::Event::Closed) {
+    while(const std::optional event  = window->pollEvent()) {
+        if(event->is<sf::Event::Closed>()) {
             window->close();
             destroyInstance();
             SoundManager::destroyInstance();
             exit(0);
         }
-        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-            std::cout << "Esc key pressed" << std::endl;
-            window->close();
-            destroyInstance();
-            SoundManager::destroyInstance();
-            exit(0);
-        }
-        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
-            if(ALGORITHM_DELAY_MS > 10)
-                ALGORITHM_DELAY_MS -= 5;
-            else if (ALGORITHM_DELAY_MS > 1 && ALGORITHM_DELAY_MS <= 10)
-                ALGORITHM_DELAY_MS -= 1;
-            else ALGORITHM_DELAY_MS -= 0.1;
+        if(const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+           if(keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
+               std::cout << "Esc key pressed" << std::endl;
+               window->close();
+               destroyInstance();
+               SoundManager::destroyInstance();
+               exit(0);
+           }
+            if(keyPressed->scancode == sf::Keyboard::Scancode::Left) {
+                if(ALGORITHM_DELAY_MS > 10)
+                    ALGORITHM_DELAY_MS -= 5;
+                else if (ALGORITHM_DELAY_MS > 1 && ALGORITHM_DELAY_MS <= 10)
+                    ALGORITHM_DELAY_MS -= 1;
+                else ALGORITHM_DELAY_MS -= 0.1;
 
-            if(ALGORITHM_DELAY_MS < 0.1)
-                ALGORITHM_DELAY_MS = 0.1;
-            currentDelayText->updateText("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms");
-        }
-        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
-            if(ALGORITHM_DELAY_MS < 1)
-                ALGORITHM_DELAY_MS += 0.1;
-            else if (ALGORITHM_DELAY_MS >= 0.1 && ALGORITHM_DELAY_MS < 10)
-                ALGORITHM_DELAY_MS += 1;
-            else if (ALGORITHM_DELAY_MS >= 10 && ALGORITHM_DELAY_MS < 100)
-                ALGORITHM_DELAY_MS += 5;
-            if(ALGORITHM_DELAY_MS >  100)
-                ALGORITHM_DELAY_MS = 100;
-            currentDelayText->updateText("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms");
+                if(ALGORITHM_DELAY_MS < 0.1)
+                    ALGORITHM_DELAY_MS = 0.1;
+                currentDelayText->updateText("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms");
+            }
+            if(keyPressed->scancode == sf::Keyboard::Scancode::Right) {
+                if(ALGORITHM_DELAY_MS < 1)
+                    ALGORITHM_DELAY_MS += 0.1;
+                else if (ALGORITHM_DELAY_MS >= 0.1 && ALGORITHM_DELAY_MS < 10)
+                    ALGORITHM_DELAY_MS += 1;
+                else if (ALGORITHM_DELAY_MS >= 10 && ALGORITHM_DELAY_MS < 100)
+                    ALGORITHM_DELAY_MS += 5;
+                if(ALGORITHM_DELAY_MS >  100)
+                    ALGORITHM_DELAY_MS = 100;
+                currentDelayText->updateText("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms");
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ Entity::Entity(int id, float height, float posX){
     this->posX = posX;
     this->posY = WINDOW_HEIGHT - this->entityHeight;
     this->column.setSize({this->chunkWidth, entityHeight});
-    this->column.setPosition(posX, this->posY);
+    this->column.setPosition({posX, this->posY});
     this->column.setFillColor(sf::Color::Cyan);
 }
 float & Entity::getEntityHeight() {

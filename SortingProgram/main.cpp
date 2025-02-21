@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
-#include "CONFIG.h"
+#include "ProjectConfig.h"
 void bubbleSort(SortVisualizer visualizer, std::vector<Entity>& entities, int n) {
     int comparisions = 0;
     int arrayAccess = 0;
@@ -52,7 +52,6 @@ int main()
     while(window.isOpen()) {
         app->HandleEvents();
         app->Draw();
-
     }
 
     delete app;

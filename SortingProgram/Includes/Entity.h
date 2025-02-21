@@ -8,7 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include "CONFIG.h"
+#include "ProjectConfig.h"
 
 /*
  * Each entity which is basically a column has:
@@ -44,7 +44,7 @@ public:
     }
     float& getEntityHeight();
     void updateColumn() {
-        column.setPosition(posX, posY);
+        column.setPosition({posX, posY});
         column.setSize({chunkWidth, entityHeight});
     }
     void changeColor(sf::Color color) {
