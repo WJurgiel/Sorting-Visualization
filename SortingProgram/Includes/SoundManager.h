@@ -6,7 +6,7 @@
 #define SOUNDMANAGER_H
 
 #include <ISoundListener.h>
-#include <map>
+#include <windows.h>
 #include <SFML/Audio.hpp>
 
 class SoundManager {

@@ -7,6 +7,7 @@
 #include <ProjectConfig.h>
 #include <iostream>
 
+
 SoundManager * SoundManager::getInstance() {
     if(!instance) {
         instance = new SoundManager;
@@ -20,9 +21,13 @@ void SoundManager::destroyInstance() {
 }
 
 bool SoundManager::loadSound(const std::string &name, const std::string &path) {
+    char currentPath[MAX_PATH];
+    GetModuleFileNameA(NULL, currentPath, MAX_PATH);
+    std::string fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + path;
+
     sf::SoundBuffer buffer;
-    if(!buffer.loadFromFile(path)) {
-        std::cerr << "Failed to load sound buffer from " << path << std::endl;
+    if(!buffer.loadFromFile(fullPath)) {
+        std::cerr << "Failed to load sound buffer from " << fullPath << std::endl;
         return false;
     }
     soundBuffer = buffer;

@@ -8,7 +8,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "SFML/Graphics/Font.hpp"
-
+#include <windows.h>
 
 class TextLog : public sf::Drawable{
     sf::Text text;

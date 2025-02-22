@@ -10,8 +10,13 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 bool TextLog::loadFont() {
-    if(!font.openFromFile(FONT_NAME)) {
-        std::cerr << "Failed to load font file " << FONT_NAME << std::endl;
+    char currentPath[MAX_PATH];
+    GetModuleFileNameA(NULL, currentPath, MAX_PATH);
+
+    std::string fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + FONT_NAME;
+    std::cout << fullPath << std::endl;
+    if(!font.openFromFile(fullPath)) {
+        std::cerr << "Failed to load font file " << fullPath << std::endl;
         return false;
     }
     return true;

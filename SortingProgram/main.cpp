@@ -28,7 +28,7 @@ void bubbleSort(SortVisualizer visualizer, std::vector<Entity>& entities, int n)
 int main()
 {
     srand(time(nullptr));
-
+    std::cout << "Current path: " << std::filesystem::current_path() << std::endl;
     std::vector<Entity> entities;
     App* app = App::getInstance(&entities);
     sf::RenderWindow& window = app->getWindow();
