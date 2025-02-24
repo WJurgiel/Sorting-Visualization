@@ -10,11 +10,24 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 bool TextLog::loadFont() {
+#if defined (_WIN32)
     char currentPath[MAX_PATH];
     GetModuleFileNameA(NULL, currentPath, MAX_PATH);
 
     std::string fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + FONT_NAME;
     std::cout << fullPath << std::endl;
+#elif __linux__
+    char currentPath[1024]; 
+    ssize_t count = readlink("/proc/self/exe", currentPath, sizeof(currentPath) - 1);
+    std::string fullPath;
+    if (count != -1) {
+        currentPath[count] = '\0'; 
+        fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + FONT_NAME;
+    }
+    else{
+        fullPath = "";
+    }
+#endif
     if(!font.openFromFile(fullPath)) {
         std::cerr << "Failed to load font file " << fullPath << std::endl;
         return false;
