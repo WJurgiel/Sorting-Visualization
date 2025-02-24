@@ -31,6 +31,7 @@ add_executable(Sorting main.cpp
         Includes/BubbleSort.h
         Source/BubbleSort.cpp
         Source/SelectionSort.cpp
+        Source/InsertionSort.cpp
 )
 target_compile_features(Sorting PRIVATE cxx_std_20)
 target_link_libraries(Sorting PRIVATE SFML::Graphics SFML::Window SFML::System SFML::Audio)
