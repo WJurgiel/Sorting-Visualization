@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.20)
 project(Sorting)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -12,7 +12,6 @@ FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 3.0.0
         GIT_SHALLOW ON
-        EXCLUDE_FROM_ALL
         SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
@@ -34,4 +33,4 @@ add_executable(Sorting main.cpp
         Source/InsertionSort.cpp
 )
 target_compile_features(Sorting PRIVATE cxx_std_20)
-target_link_libraries(Sorting PRIVATE SFML::Graphics SFML::Window SFML::System SFML::Audio)
+target_link_libraries(Sorting PRIVATE sfml-graphics sfml-window sfml-system sfml-audio)

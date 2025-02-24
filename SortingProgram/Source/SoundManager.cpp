@@ -21,10 +21,22 @@ void SoundManager::destroyInstance() {
 }
 
 bool SoundManager::loadSound(const std::string &name, const std::string &path) {
+#if defined(_WIN32)
     char currentPath[MAX_PATH];
     GetModuleFileNameA(NULL, currentPath, MAX_PATH);
     std::string fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + path;
-
+#elif __linux__
+    char currentPath[1024]; 
+    ssize_t count = readlink("/proc/self/exe", currentPath, sizeof(currentPath) - 1);
+    std::string fullPath;
+    if (count != -1) {
+        currentPath[count] = '\0'; 
+        fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + path;
+    }
+else{
+    fullPath = "";
+}
+#endif
     sf::SoundBuffer buffer;
     if(!buffer.loadFromFile(fullPath)) {
         std::cerr << "Failed to load sound buffer from " << fullPath << std::endl;
