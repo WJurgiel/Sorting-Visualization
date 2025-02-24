@@ -17,7 +17,7 @@ public:
     explicit SortVisualizer(App& app);
     ~SortVisualizer() override;
     void updateCounters(const int& comparisions, const int& arrayAccesses) const;
-    void swapEntities(std::vector<Entity>& entities, int id) const;
+    void swapEntities(std::vector<Entity>& entities, int id1, int id2) const;
 
     static void changeEntitiesColor(Entity& first, Entity& second, sf::Color color);
     void onPlaySound(const std::string& soundID) override;

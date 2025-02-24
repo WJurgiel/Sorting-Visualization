@@ -15,7 +15,7 @@ App::App(std::vector<Entity>* entities) {
     window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     this->drawableEntities = entities;
 
-    this->algorithmNameText = new TextLog("alg_name - " + std::to_string(NUM_ENTITIES));
+    this->algorithmNameText = new TextLog("alg_name - Bubble sort");
     this->comparisionsCounterText = new TextLog("Comparisions: 0",{0, TEXT_OFFSET_Y});
     this->arrayAccessText = new TextLog("Array access: 0",{0, 2 * TEXT_OFFSET_Y});
     this->currentDelayText = new TextLog("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms",{0, 3 * TEXT_OFFSET_Y});

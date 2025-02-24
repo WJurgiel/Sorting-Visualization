@@ -1,30 +1,15 @@
 #include <App.h>
 #include <iostream>
 #include <memory>
+#include <SelectionSort.h>
 #include <SortVisualizer.h>
 #include <TextLog.h>
 #include <SFML/Graphics.hpp>
 
+#include "BubbleSort.h"
 #include "Entity.h"
 #include "ProjectConfig.h"
-void bubbleSort(SortVisualizer visualizer, std::vector<Entity>& entities, int n) {
-    int comparisions = 0;
-    int arrayAccess = 0;
 
-    for (int i = 0; i < n-1; i++) {
-
-        for (int j = 0; j < n-i-1; j++) {
-            visualizer.updateCounters(comparisions, ++arrayAccess);
-
-            SortVisualizer::changeEntitiesColor(entities[j], entities[j+1], sf::Color::Red);
-            if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
-                visualizer.updateCounters(++comparisions, arrayAccess);
-                visualizer.swapEntities(entities, j);
-            }
-            SortVisualizer::changeEntitiesColor(entities[j], entities[j+1], sf::Color::Cyan);
-        }
-    }
-}
 int main()
 {
     srand(time(nullptr));
@@ -47,7 +32,9 @@ int main()
         posX += ENTITY_WIDTH + HORIZONTAL_OFFSET;
     }
 
-    bubbleSort(sortVisualizer,entities, NUM_ENTITIES);
+    Sort* bubbleSort = new SelectionSort(sortVisualizer, entities);
+
+    bubbleSort->sort();
 
     while(window.isOpen()) {
         app->HandleEvents();
@@ -55,6 +42,7 @@ int main()
     }
 
     delete app;
+    delete bubbleSort;
     SoundManager::destroyInstance();
     return 0;
 }
