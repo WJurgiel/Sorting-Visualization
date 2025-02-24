@@ -5,17 +5,17 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-#include <chrono>
 #include <ISoundListener.h>
-#include <map>
+#include <windows.h>
 #include <SFML/Audio.hpp>
 
 class SoundManager {
 private:
     static SoundManager* instance;
 
-    std::map<std::string, sf::SoundBuffer> soundBuffers;
-    std::map<std::string, sf::Sound> sounds;
+    sf::SoundBuffer soundBuffer;
+    sf::Sound sound;
+
     std::vector<ISoundListener*> listeners;
 
     std::chrono::steady_clock::time_point lastPlayTime;
@@ -23,7 +23,8 @@ private:
 
     bool loadSound(const std::string& name, const std::string& filePath);
 
-    SoundManager() = default;
+    SoundManager():sound(sf::Sound(soundBuffer)) {}
+
 public:
     ~SoundManager();
     SoundManager(SoundManager& other) = delete;

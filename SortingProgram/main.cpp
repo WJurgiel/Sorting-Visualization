@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
-#include "CONFIG.h"
+#include "ProjectConfig.h"
 void bubbleSort(SortVisualizer visualizer, std::vector<Entity>& entities, int n) {
     int comparisions = 0;
     int arrayAccess = 0;
@@ -28,7 +28,7 @@ void bubbleSort(SortVisualizer visualizer, std::vector<Entity>& entities, int n)
 int main()
 {
     srand(time(nullptr));
-
+    std::cout << "Current path: " << std::filesystem::current_path() << std::endl;
     std::vector<Entity> entities;
     App* app = App::getInstance(&entities);
     sf::RenderWindow& window = app->getWindow();
@@ -52,7 +52,6 @@ int main()
     while(window.isOpen()) {
         app->HandleEvents();
         app->Draw();
-
     }
 
     delete app;

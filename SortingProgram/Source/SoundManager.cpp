@@ -4,8 +4,9 @@
 //
 #include "SoundManager.h"
 
-#include <CONFIG.h>
+#include <ProjectConfig.h>
 #include <iostream>
+
 
 SoundManager * SoundManager::getInstance() {
     if(!instance) {
@@ -20,22 +21,22 @@ void SoundManager::destroyInstance() {
 }
 
 bool SoundManager::loadSound(const std::string &name, const std::string &path) {
+    char currentPath[MAX_PATH];
+    GetModuleFileNameA(NULL, currentPath, MAX_PATH);
+    std::string fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + path;
+
     sf::SoundBuffer buffer;
-    if(!buffer.loadFromFile(SFX_NAME)) {
-        std::cerr << "Failed to load sound buffer from " << path << std::endl;
+    if(!buffer.loadFromFile(fullPath)) {
+        std::cerr << "Failed to load sound buffer from " << fullPath << std::endl;
         return false;
     }
-    soundBuffers[name] = buffer;
-    sounds[name].setBuffer(soundBuffers[name]);
+    soundBuffer = buffer;
+    sound.setBuffer(soundBuffer);
     return true;
 }
 
 SoundManager::~SoundManager() {
-    for (auto& [name, sound] : sounds) {
-        sound.stop();
-    }
-    sounds.clear();
-    soundBuffers.clear();
+    sound.stop();
 }
 
 void SoundManager::initSounds() {
@@ -43,20 +44,20 @@ void SoundManager::initSounds() {
 }
 
 void SoundManager::playSound(const std::string &name, const float value, const float maxValue) {
-    if(sounds.find(name) != sounds.end()) {
+    if(&sound) {
         auto now = std::chrono::steady_clock::now();
         int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastPlayTime).count();
         if(elapsed >= soundCooldown) {
             float pitch = 0.5f + (value/maxValue) * 1.5f;
-            sounds[name].setPitch(pitch);
-            sounds[name].setVolume(5.f);
-            sounds[name].play();
+            sound.setPitch(pitch);
+            sound.setVolume(5.f);
+            sound.play();
             lastPlayTime = now;
             notifyListeners(name);
         }
     }else {
-        std::cerr << "Sound: " << name << " not found" << std::endl;
-    }
+            std::cerr << "Sound: " << name << " not found" << std::endl;
+        }
 }
 
 void SoundManager::addListener(ISoundListener *listener) {

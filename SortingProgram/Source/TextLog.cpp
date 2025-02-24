@@ -4,20 +4,25 @@
 
 #include "TextLog.h"
 
-#include <CONFIG.h>
+#include <ProjectConfig.h>
 #include <iostream>
 #include <ostream>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 bool TextLog::loadFont() {
-    if(!font.loadFromFile(FONT_NAME)) {
-        std::cerr << "Failed to load font file " << FONT_NAME << std::endl;
+    char currentPath[MAX_PATH];
+    GetModuleFileNameA(NULL, currentPath, MAX_PATH);
+
+    std::string fullPath = std::filesystem::path(currentPath).parent_path().parent_path().parent_path().string() + "/" + FONT_NAME;
+    std::cout << fullPath << std::endl;
+    if(!font.openFromFile(fullPath)) {
+        std::cerr << "Failed to load font file " << fullPath << std::endl;
         return false;
     }
     return true;
 }
 
-TextLog::TextLog(const std::string &startString, sf::Vector2f pos) {
+TextLog::TextLog(const std::string &startString, sf::Vector2f pos) : text(sf::Text(font, "")) {
     if(!loadFont()) return;
 
     text.setFont(font);

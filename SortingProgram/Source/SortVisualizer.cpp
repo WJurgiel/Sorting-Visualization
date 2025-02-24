@@ -20,7 +20,6 @@ void SortVisualizer::updateCounters(const int& comparisions, const int& arrayAcc
 }
 
 void SortVisualizer::swapEntities(std::vector<Entity> &entities, const int id) const {
-    // app.getWindow().display();
     app.Draw();
     sf::sleep(sf::milliseconds(1));
 

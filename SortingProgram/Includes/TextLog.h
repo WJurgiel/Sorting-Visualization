@@ -7,6 +7,8 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include "SFML/Graphics/Font.hpp"
+#include <windows.h>
 
 class TextLog : public sf::Drawable{
     sf::Text text;
@@ -17,7 +19,5 @@ public:
     void updateText(std::string newString);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
-
-
 
 #endif //TEXTLOG_H
