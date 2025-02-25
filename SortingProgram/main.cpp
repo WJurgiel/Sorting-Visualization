@@ -2,6 +2,7 @@
 #include <InsertionSort.h>
 #include <iostream>
 #include <memory>
+#include <QuickSort.h>
 #include <SelectionSort.h>
 #include <SortVisualizer.h>
 #include <TextLog.h>
@@ -33,7 +34,7 @@ int main()
         posX += ENTITY_WIDTH + HORIZONTAL_OFFSET;
     }
 
-    Sort* bubbleSort = new SelectionSort(sortVisualizer, entities);
+    Sort* bubbleSort = new QuickSort(sortVisualizer, entities);
 
     bubbleSort->sort();
 

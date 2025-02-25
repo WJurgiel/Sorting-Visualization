@@ -12,9 +12,16 @@ void SelectionSort::sort() {
     for(int i = 0; i < n; i++) {
         int minIndex = i;
         for(int j = i+1; j < n; j += 1) {
-            if(entities[j].getEntityHeight() < entities[minIndex].getEntityHeight()) minIndex = j;
+            arrayAccessesCount += 2;
+            comparisionsCount++;
+            visualizer.updateCounters(comparisionsCount,arrayAccessesCount);
+            if(entities[j].getEntityHeight() < entities[minIndex].getEntityHeight()) {
+                minIndex = j;
+            }
         }
         visualizer.swapEntities(entities, i, minIndex);
+        arrayAccessesCount += 3;
+        visualizer.updateCounters(++comparisionsCount,arrayAccessesCount);
         SortVisualizer::changeEntitiesColor(entities[i], entities[minIndex], sf::Color::Cyan);
     }
 }

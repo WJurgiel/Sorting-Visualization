@@ -5,4 +5,6 @@
 #include "Sort.h"
 
 Sort::Sort(SortVisualizer &visualizer, std::vector<Entity> &entities) : visualizer(visualizer), entities(entities) {
+    comparisionsCount = 0;
+    arrayAccessesCount = 0;
 }

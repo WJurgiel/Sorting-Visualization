@@ -11,6 +11,8 @@ class Sort {
 protected:
     SortVisualizer& visualizer;
     std::vector<Entity>& entities;
+    int comparisionsCount;
+    int arrayAccessesCount;
 public:
     Sort(SortVisualizer& visualizer, std::vector<Entity>& entities);
     virtual ~Sort() = default;

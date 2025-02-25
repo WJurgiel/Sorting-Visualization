@@ -34,8 +34,8 @@ void SortVisualizer::swapEntities(std::vector<Entity> &entities, const int id1, 
     entities[id1].updateColumn();
     entities[id2].updateColumn();
 
-    float value = entities[id1].getEntityHeight();
-    float maxValue = WINDOW_HEIGHT;
+    const float value = entities[id1].getEntityHeight();
+    const float maxValue = WINDOW_HEIGHT;
     soundManager->playSound("beep", value, maxValue);
     app.HandleEvents();
     app.Draw();
@@ -46,6 +46,10 @@ void SortVisualizer::swapEntities(std::vector<Entity> &entities, const int id1, 
 void SortVisualizer::changeEntitiesColor(Entity &first, Entity &second, sf::Color color) {
     first.changeColor(color);
     second.changeColor(color);
+}
+
+void SortVisualizer::changeEntityColor(Entity &entity, sf::Color color) {
+    entity.changeColor(color);
 }
 
 void SortVisualizer::onPlaySound(const std::string &soundID) {

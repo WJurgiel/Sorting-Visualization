@@ -8,19 +8,17 @@ BubbleSort::BubbleSort(SortVisualizer &visualizer, std::vector<Entity> &entities
 }
 
 void BubbleSort::sort() {
-    int comparisions = 0;
-    int arrayAccess = 0;
     const int n = NUM_ENTITIES;
     for (int i = 0; i < n-1; i++) {
-
         for (int j = 0; j < n-i-1; j++) {
-            visualizer.updateCounters(comparisions, ++arrayAccess);
-
             SortVisualizer::changeEntitiesColor(entities[j], entities[j+1], sf::Color::Red);
+            arrayAccessesCount += 2;
+            comparisionsCount += 1;
             if(entities[j].getEntityHeight() > entities[j+1].getEntityHeight()) {
-                visualizer.updateCounters(++comparisions, arrayAccess);
+                arrayAccessesCount += 3;
                 visualizer.swapEntities(entities, j, j+1);
             }
+            visualizer.updateCounters(comparisionsCount, arrayAccessesCount);
             SortVisualizer::changeEntitiesColor(entities[j], entities[j+1], sf::Color::Cyan);
         }
     }
