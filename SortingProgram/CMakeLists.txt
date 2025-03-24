@@ -32,6 +32,8 @@ add_executable(Sorting main.cpp
         Source/SelectionSort.cpp
         Source/InsertionSort.cpp
         Source/QuickSort.cpp
+        Includes/AlgorithmType.h
+        Source/SortFactory.cpp
 )
 target_compile_features(Sorting PRIVATE cxx_std_20)
 target_link_libraries(Sorting PRIVATE sfml-graphics sfml-window sfml-system sfml-audio)

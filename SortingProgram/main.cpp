@@ -4,6 +4,7 @@
 #include <memory>
 #include <QuickSort.h>
 #include <SelectionSort.h>
+#include <SortFactory.h>
 #include <SortVisualizer.h>
 #include <TextLog.h>
 #include <SFML/Graphics.hpp>
@@ -11,13 +12,17 @@
 #include "BubbleSort.h"
 #include "Entity.h"
 #include "ProjectConfig.h"
-
-int main()
+#include "AlgorithmType.h"
+int main(int argc, char** argv)
 {
+    const int algorithmType = (argv[1] != nullptr) ? atoi(argv[1]) : 0;
+    std::string algorithmName = std::to_string(algorithmType);
     srand(time(nullptr));
     std::cout << "Current path: " << std::filesystem::current_path() << std::endl;
     std::vector<Entity> entities;
-    App* app = App::getInstance(&entities);
+
+
+    App* app = App::getInstance(&entities, algorithmName);
     sf::RenderWindow& window = app->getWindow();
     SortVisualizer sortVisualizer(*app);
 
@@ -34,9 +39,9 @@ int main()
         posX += ENTITY_WIDTH + HORIZONTAL_OFFSET;
     }
 
-    Sort* bubbleSort = new QuickSort(sortVisualizer, entities);
-
-    bubbleSort->sort();
+    SortFactory sortFactory(sortVisualizer, entities);
+    Sort* sortingAlgorithm = sortFactory.createSort(algorithmType);
+    sortingAlgorithm->sort();
 
     while(window.isOpen()) {
         app->HandleEvents();
@@ -44,7 +49,7 @@ int main()
     }
 
     delete app;
-    delete bubbleSort;
+    delete sortingAlgorithm;
     SoundManager::destroyInstance();
     return 0;
 }

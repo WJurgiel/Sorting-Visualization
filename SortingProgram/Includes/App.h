@@ -21,8 +21,12 @@ private:
     TextLog* arrayAccessText;
     TextLog* currentDelayText;
     TextLog* currentTimeText;
+    std::string currentAlgorithmName;
 protected:
     App();
+
+    App(std::vector<Entity> *entities, std::string currentAlgorithmName);
+
     explicit App(std::vector<Entity>* entities);
     static App* _instance;
 public:
@@ -31,7 +35,7 @@ public:
     void operator=(const App& other) = delete;
 
     static App *getInstance();
-    static App *getInstance(std::vector<Entity>* entities);
+    static App *getInstance(std::vector<Entity>* entities, std::string currentAlgorithmName);
 
     static void destroyInstance();
 

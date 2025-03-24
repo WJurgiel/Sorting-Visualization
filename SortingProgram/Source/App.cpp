@@ -11,11 +11,12 @@ App::App() {
     drawableEntities = nullptr;
     std::cout << "[INFO]: In order to work on entities please assign them first with < App.setEntityVector(std::vector<Entity>*) >";
 }
-App::App(std::vector<Entity>* entities) {
+App::App(std::vector<Entity>* entities, std::string currentAlgorithmName) {
     window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     this->drawableEntities = entities;
+    this->currentAlgorithmName = currentAlgorithmName;
 
-    this->algorithmNameText = new TextLog("alg_name - Bubble sort");
+    this->algorithmNameText = new TextLog("alg_name: " + currentAlgorithmName);
     this->comparisionsCounterText = new TextLog("Comparisions: 0",{0, TEXT_OFFSET_Y});
     this->arrayAccessText = new TextLog("Array access: 0",{0, 2 * TEXT_OFFSET_Y});
     this->currentDelayText = new TextLog("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms",{0, 3 * TEXT_OFFSET_Y});
@@ -27,9 +28,9 @@ App* App::getInstance() {
     }
     return _instance;
 }
-App* App::getInstance(std::vector<Entity>* entities) {
+App* App::getInstance(std::vector<Entity>* entities, std::string currentAlgorithmName) {
     if (_instance == nullptr) {
-        _instance = new App(entities);
+        _instance = new App(entities, currentAlgorithmName);
     }
     return _instance;
 }
