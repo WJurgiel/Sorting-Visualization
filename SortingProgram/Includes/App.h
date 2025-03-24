@@ -22,10 +22,13 @@ private:
     TextLog* currentDelayText;
     TextLog* currentTimeText;
     std::string currentAlgorithmName;
+    int algorithmType;
+
+    void setAlgorithmName();
 protected:
     App();
 
-    App(std::vector<Entity> *entities, std::string currentAlgorithmName);
+    App(std::vector<Entity> *entities, char** argv);
 
     explicit App(std::vector<Entity>* entities);
     static App* _instance;
@@ -35,7 +38,7 @@ public:
     void operator=(const App& other) = delete;
 
     static App *getInstance();
-    static App *getInstance(std::vector<Entity>* entities, std::string currentAlgorithmName);
+    static App *getInstance(std::vector<Entity>* entities, char** argv);
 
     static void destroyInstance();
 
@@ -44,6 +47,8 @@ public:
     [[nodiscard]] TextLog& getArrayAccessCounter()const;
 
     void setEntityVector(std::vector<Entity>* newEntities);
+    void setAlgorithmType(char** argv);
+    int getAlgorithmType() const;
     void HandleEvents() override;
     void Draw() override;
 };

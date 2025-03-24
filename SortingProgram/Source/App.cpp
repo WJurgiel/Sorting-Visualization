@@ -6,15 +6,19 @@
 
 #include <SoundManager.h>
 
+#include "AlgorithmType.h"
+
 App::App() {
     window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     drawableEntities = nullptr;
     std::cout << "[INFO]: In order to work on entities please assign them first with < App.setEntityVector(std::vector<Entity>*) >";
 }
-App::App(std::vector<Entity>* entities, std::string currentAlgorithmName) {
+App::App(std::vector<Entity>* entities, char** argv) {
     window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     this->drawableEntities = entities;
-    this->currentAlgorithmName = currentAlgorithmName;
+
+    this->setAlgorithmType(argv);
+    this->setAlgorithmName();
 
     this->algorithmNameText = new TextLog("alg_name: " + currentAlgorithmName);
     this->comparisionsCounterText = new TextLog("Comparisions: 0",{0, TEXT_OFFSET_Y});
@@ -28,9 +32,9 @@ App* App::getInstance() {
     }
     return _instance;
 }
-App* App::getInstance(std::vector<Entity>* entities, std::string currentAlgorithmName) {
+App* App::getInstance(std::vector<Entity>* entities, char** argv) {
     if (_instance == nullptr) {
-        _instance = new App(entities, currentAlgorithmName);
+        _instance = new App(entities, argv);
     }
     return _instance;
 }
@@ -53,6 +57,27 @@ TextLog & App::getArrayAccessCounter() const {
 void App::setEntityVector(std::vector<Entity>* newEntities) {
     this->drawableEntities = newEntities;
 }
+
+void App::setAlgorithmType(char **argv) {
+    algorithmType = (argv[1] != nullptr) ? atoi(argv[1]) : BUBBLE_SORT;
+}
+
+int App::getAlgorithmType() const {
+    return algorithmType;
+}
+
+void App::setAlgorithmName() {
+    std::string m_name;
+    switch(algorithmType) {
+        case BUBBLE_SORT: m_name = "Bubble Sort"; break;
+        case INSERTION_SORT: m_name = "Insertion Sort"; break;
+        case SELECTION_SORT: m_name = "Selection Sort"; break;
+        case QUICK_SORT: m_name = "Quick Sort"; break;
+        default: m_name = "Unknown"; break;
+    }
+    currentAlgorithmName = m_name;
+}
+
 void App::HandleEvents() {
     while(const std::optional event  = window->pollEvent()) {
         if(event->is<sf::Event::Closed>()) {
