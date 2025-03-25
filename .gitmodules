@@ -1,0 +1,3 @@
+[submodule "SortingProgram/googletest"]
+	path = SortingProgram/googletest
+	url = https://github.com/google/googletest.git

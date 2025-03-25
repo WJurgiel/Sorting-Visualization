@@ -52,3 +52,7 @@ void TextLog::updateText(std::string newString) {
 void TextLog::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(text, states);
 }
+
+std::string TextLog::getMessage() const {
+    return text.getString();
+}

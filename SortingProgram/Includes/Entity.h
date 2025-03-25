@@ -31,6 +31,7 @@ public:
     : id(other.id), entityHeight(other.entityHeight), posX(other.posX), posY(other.posY),
       column(std::move(other.column)) {
     }
+    Entity(const Entity& other) = default;
     Entity& operator=(Entity&& other) noexcept {
         if(this!= &other) {
             id = other.id;

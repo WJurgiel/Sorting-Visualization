@@ -21,8 +21,15 @@ private:
     TextLog* arrayAccessText;
     TextLog* currentDelayText;
     TextLog* currentTimeText;
+    std::string currentAlgorithmName;
+    int algorithmType;
+
+    void setAlgorithmName();
 protected:
     App();
+
+    App(std::vector<Entity> *entities, char** argv);
+
     explicit App(std::vector<Entity>* entities);
     static App* _instance;
 public:
@@ -31,15 +38,19 @@ public:
     void operator=(const App& other) = delete;
 
     static App *getInstance();
-    static App *getInstance(std::vector<Entity>* entities);
+    static App *getInstance(std::vector<Entity>* entities, char** argv);
 
     static void destroyInstance();
 
     [[nodiscard]] sf::RenderWindow& getWindow()const;
     [[nodiscard]] TextLog& getComparisionsCounter()const;
     [[nodiscard]] TextLog& getArrayAccessCounter()const;
+    [[nodiscard]] TextLog & getAlgorithmNameTextLog() const;
 
     void setEntityVector(std::vector<Entity>* newEntities);
+    void setAlgorithmType(char** argv);
+    [[nodiscard]] int getAlgorithmType() const;
+    [[nodiscard]] const std::string& getAlgorithmName() const;
     void HandleEvents() override;
     void Draw() override;
 };

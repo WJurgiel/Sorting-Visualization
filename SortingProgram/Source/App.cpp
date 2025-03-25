@@ -6,16 +6,20 @@
 
 #include <SoundManager.h>
 
+#include "AlgorithmType.h"
+
 App::App() {
     window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     drawableEntities = nullptr;
     std::cout << "[INFO]: In order to work on entities please assign them first with < App.setEntityVector(std::vector<Entity>*) >";
 }
-App::App(std::vector<Entity>* entities) {
+App::App(std::vector<Entity>* entities, char** argv) {
     window = new sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Sorting");
     this->drawableEntities = entities;
 
-    this->algorithmNameText = new TextLog("alg_name - " + std::to_string(NUM_ENTITIES));
+    this->setAlgorithmType(argv);
+
+    this->algorithmNameText = new TextLog("alg_name: " + currentAlgorithmName);
     this->comparisionsCounterText = new TextLog("Comparisions: 0",{0, TEXT_OFFSET_Y});
     this->arrayAccessText = new TextLog("Array access: 0",{0, 2 * TEXT_OFFSET_Y});
     this->currentDelayText = new TextLog("Delay: " + std::to_string(ALGORITHM_DELAY_MS) + "ms",{0, 3 * TEXT_OFFSET_Y});
@@ -27,9 +31,9 @@ App* App::getInstance() {
     }
     return _instance;
 }
-App* App::getInstance(std::vector<Entity>* entities) {
+App* App::getInstance(std::vector<Entity>* entities, char** argv) {
     if (_instance == nullptr) {
-        _instance = new App(entities);
+        _instance = new App(entities, argv);
     }
     return _instance;
 }
@@ -48,10 +52,40 @@ TextLog & App::getComparisionsCounter() const {
 TextLog & App::getArrayAccessCounter() const {
     return *arrayAccessText;
 }
-
+TextLog & App::getAlgorithmNameTextLog() const {
+    return *algorithmNameText;
+}
 void App::setEntityVector(std::vector<Entity>* newEntities) {
     this->drawableEntities = newEntities;
 }
+
+void App::setAlgorithmType(char **argv) {
+    algorithmType = (argv[1] != nullptr) ? atoi(argv[1]) : BUBBLE_SORT;
+
+    setAlgorithmName();
+}
+
+int App::getAlgorithmType() const {
+    return algorithmType;
+}
+
+const std::string & App::getAlgorithmName() const {
+    return currentAlgorithmName;
+}
+
+void App::setAlgorithmName() {
+    std::string m_name;
+    switch(algorithmType) {
+        case BUBBLE_SORT: m_name = "Bubble Sort"; break;
+        case INSERTION_SORT: m_name = "Insertion Sort"; break;
+        case SELECTION_SORT: m_name = "Selection Sort"; break;
+        case QUICK_SORT: m_name = "Quick Sort"; break;
+        default: m_name = "Unknown"; break;
+    }
+    currentAlgorithmName = m_name;
+
+}
+
 void App::HandleEvents() {
     while(const std::optional event  = window->pollEvent()) {
         if(event->is<sf::Event::Closed>()) {
