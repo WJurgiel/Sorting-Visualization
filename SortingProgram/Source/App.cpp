@@ -18,7 +18,6 @@ App::App(std::vector<Entity>* entities, char** argv) {
     this->drawableEntities = entities;
 
     this->setAlgorithmType(argv);
-    this->setAlgorithmName();
 
     this->algorithmNameText = new TextLog("alg_name: " + currentAlgorithmName);
     this->comparisionsCounterText = new TextLog("Comparisions: 0",{0, TEXT_OFFSET_Y});
@@ -53,17 +52,25 @@ TextLog & App::getComparisionsCounter() const {
 TextLog & App::getArrayAccessCounter() const {
     return *arrayAccessText;
 }
-
+TextLog & App::getAlgorithmNameTextLog() const {
+    return *algorithmNameText;
+}
 void App::setEntityVector(std::vector<Entity>* newEntities) {
     this->drawableEntities = newEntities;
 }
 
 void App::setAlgorithmType(char **argv) {
     algorithmType = (argv[1] != nullptr) ? atoi(argv[1]) : BUBBLE_SORT;
+
+    setAlgorithmName();
 }
 
 int App::getAlgorithmType() const {
     return algorithmType;
+}
+
+const std::string & App::getAlgorithmName() const {
+    return currentAlgorithmName;
 }
 
 void App::setAlgorithmName() {
@@ -76,6 +83,7 @@ void App::setAlgorithmName() {
         default: m_name = "Unknown"; break;
     }
     currentAlgorithmName = m_name;
+
 }
 
 void App::HandleEvents() {

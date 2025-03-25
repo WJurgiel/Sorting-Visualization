@@ -45,10 +45,12 @@ public:
     [[nodiscard]] sf::RenderWindow& getWindow()const;
     [[nodiscard]] TextLog& getComparisionsCounter()const;
     [[nodiscard]] TextLog& getArrayAccessCounter()const;
+    [[nodiscard]] TextLog & getAlgorithmNameTextLog() const;
 
     void setEntityVector(std::vector<Entity>* newEntities);
     void setAlgorithmType(char** argv);
-    int getAlgorithmType() const;
+    [[nodiscard]] int getAlgorithmType() const;
+    [[nodiscard]] const std::string& getAlgorithmName() const;
     void HandleEvents() override;
     void Draw() override;
 };

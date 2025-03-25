@@ -20,6 +20,7 @@ public:
     explicit TextLog(const std::string &startString,sf::Vector2f pos = {0.f,0.f});
     void updateText(std::string newString);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+    std::string getMessage() const;
 };
 
 #endif //TEXTLOG_H
