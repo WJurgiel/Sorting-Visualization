@@ -18,7 +18,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: recursive
-         
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y libx11-dev libxrandr-dev libxcursor-dev libxi-dev
+
     - name: Configure CMake
       run: cmake -S ${{github.workspace}}/SortingProgram -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
