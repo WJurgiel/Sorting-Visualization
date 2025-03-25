@@ -20,7 +20,8 @@ jobs:
         submodules: recursive
 
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev
+      run: sudo apt-get update && sudo apt-get install -y libx11-dev libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libjpeg-dev \
+           libopenal-dev libflac-dev libvorbis-dev
 
     - name: Configure CMake
       run: cmake -S ${{github.workspace}}/SortingProgram -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
